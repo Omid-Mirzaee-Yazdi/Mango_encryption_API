@@ -2,24 +2,23 @@
 
 import requests, json
 
-def mangoenc(devmode=False, **arguments): #process and send data
+cc_url='http://mango.mirzaee.info/API'                              # Mango cloud computation url
 
-    if (arguments['mode']=="keyless"):
+def mangoenc(devmode=False, **arguments):                           # process and send data
+    
+    if (arguments['mode']=='keyless'):
+        # Keyless mode
         try:
-            assert 2<=len(arguments)<=3  #assert validity of number of args 
 
-            if type(arguments['text']) is not str or type(devmode) is not bool:
+            assert 2<=len(arguments)<=3                             # assert validity of number of args 
+            if type(devmode) is not bool or type(arguments['text']) is not str:
                 raise TypeError('please check the type of arguments(text:str, devmode:boolean)')
-                
-            """
-            response = requests.post('#',  #send data to cloud to compute
+            encreption = requests.post(cc_url+'/keylessenc.php',    # send data to compute
                             data={
                                 'devmode': devmode,
                                 'text': arguments['text']
                                 })
-            return json.loads(r.text) #return jsoned result
-            """
-            return devmode 
+            return encreption.text                                   # return jsoned result as a dictionary         
 
         except AssertionError as er:
             return "MANGO error: number of arguments must be between 2 and 3"
@@ -30,22 +29,26 @@ def mangoenc(devmode=False, **arguments): #process and send data
         except BaseException as er:
             return "MANGO error: {}".format(repr(er))
 
-        print('keyless activated')
 
-    elif (arguments['mode']=="ordinary" and len(arguments)>=3):
+    elif (arguments['mode']=="ordinary"):
+        # ordinary mode
         pass
 
-    elif (arguments['mode']=="extreme" and len(arguments)>=4):
+    elif (arguments['mode']=="extreme"):
+        # extreme mode
         pass
 
-    elif (arguments['mode']=="illusion" and len(arguments)>=4):
+    elif (arguments['mode']=="illusion"):
         pass
+
 
     else:
         return "MANGO error: unknown mode: {}".format(arguments['mode'])
 
+
 def mangodec():
     pass
+
 
 
 print(mangoenc(mode="keyless", text="5"))
