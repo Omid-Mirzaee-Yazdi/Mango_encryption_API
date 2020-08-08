@@ -8,7 +8,7 @@ def mangoenc(devmode=False, **arguments):
     # encryption function
 
     if (arguments['mode']=='keyless'):
-        # Keyless mode
+        # Keyless mode encryption
         try:
             assert 2<=len(arguments)<=3                             # assert validity of number of args 
             if type(devmode) is not bool or type(arguments['text']) is not str:
@@ -33,7 +33,7 @@ def mangoenc(devmode=False, **arguments):
 
 
     elif (arguments['mode']=="ordinary"):
-        # ordinary mode
+        # ordinary mode encryption
         try:
             assert 3<=len(arguments)<=4                             # assert validity of number of args 
             if type(devmode) is not bool or type(arguments['text']) is not str or type(arguments['initkey']) is not int:
@@ -59,7 +59,7 @@ def mangoenc(devmode=False, **arguments):
 
 
     elif (arguments['mode']=="extreme"):
-        # extreme mode
+        # extreme mode encryption
         try:
             assert 4<=len(arguments)<=5                             # assert validity of number of args 
             if type(devmode) is not bool or type(arguments['text']) is not str or type(arguments['comptext']) is not str or type(arguments['initkey']) is not int:
@@ -86,6 +86,7 @@ def mangoenc(devmode=False, **arguments):
 
 
     elif (arguments['mode']=="illusion"):
+        # illusion mode encryption
         try:
             assert 4<=len(arguments)<=5                             # assert validity of number of args 
             if type(devmode) is not bool or type(arguments['text']) is not str or type(arguments['sectext']) is not str or type(arguments['initkey']) is not int:
@@ -99,7 +100,7 @@ def mangoenc(devmode=False, **arguments):
                                 'initkey': arguments['initkey'],
                                 })
             print('sent!')           
-            return json.loads(encryption.text)                       # return jsoned result as a dictionary         
+            return json.loads(encryption.text)                      # return jsoned result as a dictionary         
 
         except AssertionError as er:
             return "MANGO error: number of arguments must be between 2 and 3"
@@ -208,8 +209,8 @@ def mangodec(devmode=False, **arguments):
                                 'text': arguments['text'],
                                 'deckey': arguments['deckey'],
                                 })
-            print('sent!')           
-            return json.loads(decryption.text)                                   # return jsoned result as a dictionary         
+            print('sent!')
+            return json.loads(decryption.text)                      # return jsoned result as a dictionary         
 
         except AssertionError as er:
             return "MANGO error: number of arguments must be between 2 and 3"
@@ -221,9 +222,3 @@ def mangodec(devmode=False, **arguments):
             return "MANGO error: {}".format(repr(er))
     else:
         return "MANGO error: unknown mode: {}".format(arguments['mode'])
-
-        
-enc=mangoenc(mode='illusion', initkey=5, sectext='cool', devmode=True, text='sample text')
-dec=mangodec(mode='illusion', deckey=enc['decryptionkey2'], text=enc['encryption'])
-
-print(dec)
